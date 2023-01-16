@@ -8,6 +8,7 @@ export const Container = styled.SafeAreaView`
     max-height: 60px;
     align-items: center;
     justify-content: flex-start;
+
 `
 export const Title = styled.Text`
     margin-left: 10px;

@@ -10,20 +10,24 @@ import { format } from 'date-fns';
 
 export default function Home() {
   const {handleLogout, user} = useContext(AuthContext);
+
   const isFocused = useIsFocused(); // Para somente ficar carregando os dados se estiver com foco na tela de home
+  
   const [dateBalance, setDateBalance] = useState(Date.now())
   const [listBalance, setListBalance] = useState([])
  
  useEffect(() => {
     let isActive = true;  // Vai servir para termos controle do ciclo de vida do Estados 
     async function getMoviments() {
-      const dateFormated = format(dateBalance, 'dd/MM/yyyy'); // Precisamos informar o formado da data
+      const dateFormated = format(dateBalance, 'dd/MM/yyyy'); // Precisamos informar o formado da data a LIB date-fns serve pra mudarmos 
+                                                              // o formato do date, por default vem no padrao americano, a api espera
+                                                              // no formato BR dd/MM/yyyy
       const response = await api.get('/balance', {
         params: {
           date: dateFormated
         }
       })
-      if(isActive){
+      if(isActive){ // So vai alterar o estado do se for true
         setListBalance(response.data)
       }
     }
@@ -31,13 +35,13 @@ export default function Home() {
     return () => isActive = false  // Vamos trocar para false assim que terminar a insercao,
                                     // dessa forma não vai ficar atualizado o estado quando
                                     // estivermos em outra tela
- }, [isFocused])
+
+ }, [isFocused]) // Vai verificar se a home está em foco dar reload no useEffect, caso ele abra o drawer e feche tb vai recarregar as info
  
   return (
-   <SafeContainer>
-        <Container>
+    <SafeContainer>
+    <Container>
           <Header title={'Minha Movimentações'}/>
-          <Title>{user.name}</Title>
             <CardsList
               data={listBalance}
               horizontal={true}
@@ -47,6 +51,6 @@ export default function Home() {
             />
 
         </Container>
-   </SafeContainer>
+          </SafeContainer>
   );
 }
