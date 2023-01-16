@@ -18,18 +18,18 @@ export const InputData = styled.TextInput`
     width: 80%;
     background-color: #D9D9D9;
     margin-top: 15px;
-    height: 45px;
+    height: 50px;
     border: 2px solid #694993;
     opacity: 0.8;
     color: #000;
     padding: 15px;
-    font-size: 16px;
+    font-size: 17px;
     border-radius: 5px;
     `;
 export const Logo = styled.Image`
-    width: 245px;
+    width: 180px;
     height: 170px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -46,7 +46,7 @@ export const Button = styled.TouchableOpacity`
 `;
 export const TxtButton = styled.Text`
     color: #FFF;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
 `;
 export const BtnAccout = styled.TouchableOpacity`

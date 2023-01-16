@@ -1,7 +1,8 @@
 import React, {useState, useContext} from 'react';
-import { Keyboard } from 'react-native';
-import { AuthContext } from '../../Contexts/index.js';
-import {SafeContainer, Container, DisableKeyboard, InputData,LabelText, Logo, Button, TxtButton, BtnAccout} from '../SignIn/styles.js'
+import { Keyboard, ActivityIndicator, Platform, Alert} from 'react-native';
+import { AuthContext } from '../../Contexts/Auth';
+import {SafeContainer, Container, DisableKeyboard,
+   InputData,LabelText, Logo, Button, TxtButton, BtnAccout} from '../SignIn/styles.js'
 import { useNavigation } from '@react-navigation/native';
 
 export default function SignUp() {
@@ -9,27 +10,36 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {createAccount} = useContext(AuthContext);
+  const {createAccount, loading} = useContext(AuthContext);
 
   const navigation = useNavigation();
 
   function submitAccount(){
-    createAccount(name, email, password)
+    if(name !== '' || email !== '' || password !== ''){
+      createAccount(name, email, password);
+
+      navigation.goBack()
+    }else{
+      Alert.alert('Atenção', 'Os campos são obrigatorios')
+      return
+    }
   }
  
   return (
   <SafeContainer>
     <DisableKeyboard onPress={() => Keyboard.dismiss()}>
-    <Container>
+    <Container
+      behavior={Platform.OS === 'ios' ? 'padding': ''}
+      enabled
+    >
         <Logo source={require('../../assets/Icon.png')}/>
         <InputData 
         placeholder="Nome"
         value={name}
         onChangeText={(value)=> setName(value)}
-        
       />
       <InputData
-        placeholder="email"
+        placeholder="Email"
         value={email}
         onChangeText={value => setEmail(value)}
         keyboardType='email-address'
@@ -43,10 +53,15 @@ export default function SignUp() {
        />
       
       <Button onPress={submitAccount}>
-          <TxtButton>Acessar</TxtButton>
+      {loading ? (
+          <ActivityIndicator size={20} color='#FFF'/>
+         ) : (
+           <TxtButton>Acessar</TxtButton>
+           )
+          }
       </Button>  
       <BtnAccout onPress={() => navigation.goBack()}>
-        <LabelText>Já possui uma conta? Acessar</LabelText>
+          <LabelText>Já possui uma conta? Acessar</LabelText>
       </BtnAccout>
     </Container>
     </DisableKeyboard>
