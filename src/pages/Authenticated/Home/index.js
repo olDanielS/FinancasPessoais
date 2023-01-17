@@ -11,12 +11,13 @@ import { format } from 'date-fns';
 export default function Home() {
   const {handleLogout, user} = useContext(AuthContext);
 
-  const isFocused = useIsFocused(); // Para somente ficar carregando os dados se estiver com foco na tela de home
   
   const [dateBalance, setDateBalance] = useState(Date.now())
-  const [listBalance, setListBalance] = useState([])
+  const [listBalance, setListBalance] = useState()
+  
+  const isFocused = useIsFocused(); // Para somente ficar carregando os dados se estiver com foco na tela de home
  
- useEffect(() => {
+  useEffect(() => {
     let isActive = true;  // Vai servir para termos controle do ciclo de vida do Estados 
     async function getMoviments() {
       const dateFormated = format(dateBalance, 'dd/MM/yyyy'); // Precisamos informar o formado da data a LIB date-fns serve pra mudarmos 

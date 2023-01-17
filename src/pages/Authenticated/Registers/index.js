@@ -1,15 +1,55 @@
 import React, {useState} from 'react';
 import {Title, Background, InputData, BtnRegister, TxtRegister} from './styles'
 import Header from '../Components/Header';
-import {SafeAreaView } from 'react-native';
+import {Alert, SafeAreaView } from 'react-native';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import RegisterTypes from '../Components/RegisterTypes';
-
+import api from '../../../Services/api';
+import { format } from 'date-fns';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Registers() {
+  const navigation = useNavigation();
+
   const [description, setDescription] = useState('')
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState('')
   const [type, setType] = useState('receita')
+
+  function handleSubmit(){
+    Keyboard.dismiss()
+
+    if(isNaN(parseFloat(value)) || type === ''){
+      alert('Preencha todos os campos corretamente')
+      return;
+    }
+    Alert.alert('Confirmando transação', `Tipo: ${type} - Valor: ${parseFloat(value)}`, [
+      {
+        text: "Cancelar",
+        style: "cancel"
+      },
+      {
+        text: 'Continuar',
+        onPress: () => handleAdd()
+      }
+    ]
+)
+    
+  }
+  
+  async function handleAdd(){
+    Keyboard.dismiss()
+
+    await api.post('/receive', {
+      description: description,
+      value: Number(value),
+      type: type,
+      date: format(new Date(), 'dd/MM/yyyy')
+    })
+    setValue('')
+    setDescription('')
+    navigation.navigate('Home');
+
+  }
 
  return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -28,7 +68,7 @@ export default function Registers() {
           />
           <Title>Tipo de Movimentação</Title>
             <RegisterTypes type={type} sendTypeChanged={(item) => setType(item)}/>
-          <BtnRegister>
+          <BtnRegister  onPress={() => handleSubmit()}>
               <TxtRegister>Registrar</TxtRegister>
           </BtnRegister>
 
