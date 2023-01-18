@@ -50,8 +50,22 @@ export default function Home() {
                                     // dessa forma não vai ficar atualizado o estado quando
                                     // estivermos em outra tela
 
- }, [isFocused]) // Vai verificar se a home está em foco dar reload no useEffect, caso ele abra o drawer e feche tb vai recarregar as info
+ }, [isFocused, dateBalance]) // Vai verificar se a home está em foco dar reload no useEffect, caso ele abra o drawer e feche tb vai recarregar as info
  
+ async function handleDelete(id){
+  console.log(id)
+  try{
+    await api.delete('/receives/delete', {
+      params: {
+        item_id: id
+      }
+ })
+ setDateBalance(Date.now())
+
+  }catch(err){}
+ }
+
+
   return (
     <SafeContainer>
     <Container>
@@ -74,7 +88,7 @@ export default function Home() {
           <ListMovimentes
             data={moviments}
             keyExtrator={item => item.id}
-            renderItem={({item}) => <HistoricoList data={item}/>}
+            renderItem={({item}) => <HistoricoList data={item} deleteItem={handleDelete}/>}
             showsVerticalScrollIndicator={false}
             
           />
