@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Title, Background, InputData, BtnRegister, TxtRegister} from './styles'
+import {Title, Background, InputData, BtnRegister, TxtRegister} from './styles';
+import {Alert, SafeAreaView, TouchableWithoutFeedback, Keyboard} from 'react-native';
+
 import Header from '../Components/Header';
-import {Alert, SafeAreaView } from 'react-native';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import RegisterTypes from '../Components/RegisterTypes';
 import api from '../../../Services/api';
+
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 
@@ -41,7 +42,7 @@ export default function Registers() {
 
     await api.post('/receive', {
       description: description,
-      value: Number(value),
+      value: parseFloat(value),
       type: type,
       date: format(new Date(), 'dd/MM/yyyy')
     })

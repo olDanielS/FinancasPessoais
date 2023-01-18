@@ -25,7 +25,7 @@ export default function Cards({data}) {
  return (
    <Container bg={labelName.color}>
         <Title>{labelName.label}</Title>
-        <Balance>R$ {data.saldo.toFixed(1)}</Balance>
+        <Balance>R$ {data.saldo.toFixed(2)}</Balance>
    </Container>
   );
 }

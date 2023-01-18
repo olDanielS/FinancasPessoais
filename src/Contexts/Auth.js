@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function AuthProvider({children}) { 
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const [loading, setLoading] = useState(false); // Controla o IndicatorActive de quando for criar conta e logar
   const [loadingAuth, setLoadingAuth] = useState(true); //Controla o IndicatorActive de quando for trocar rotas enrtre Stack e Drawer
   
@@ -15,18 +15,16 @@ function AuthProvider({children}) {
   useEffect(() => {
    async function localStorange(){
      const storangeUser = await AsyncStorage.getItem('@AuthToken');
-     console.log(storangeUser)
      if(storangeUser){
       const response = await api.get('/me', { 
         headers:{
           'Authorization': `Bearer ${storangeUser}` // Nessa rota buscamos os dados do Users pelo token e repassamos
         }
       }).catch(() => {
-        setUser(null)
+        setUser('')
       })
 
       api.defaults.headers['Authorization'] = `Bearer ${storangeUser}` // Tornando o token default para proximas requisições dentro do header
-      console.log(JSON.stringify(response.data))
       setUser(response.data);
       setLoadingAuth(false)
     }
@@ -63,12 +61,15 @@ function AuthProvider({children}) {
 
       const {id, name, token} = response.data;
       const data = {
-        id, name, token, email
+        id: id,
+        name: name,
+        token: token,
+
       }
-      api.defaults.headers['Auhorization'] = `Bearer ${token}` // Setando novamente o token default
+      api.defaults.headers['Authorization'] = `Bearer ${token}` // Setando novamente o token default
       
-      AsyncStorage.setItem('@AuthToken', token); // Colocando o token no async Storange
-      setUser({id, name, email})
+      await AsyncStorage.setItem('@AuthToken', token); // Colocando o token no async Storange
+      setUser({id, name, token})
       setLoading(false)
 
     
@@ -80,7 +81,7 @@ function AuthProvider({children}) {
 
   function handleLogout(){
     AsyncStorage.clear().then(() => {
-      setUser(null)
+      setUser('')
     })
   }
     return(

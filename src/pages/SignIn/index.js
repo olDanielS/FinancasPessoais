@@ -16,7 +16,6 @@ export default function SignIn() {
   const {handleLogin, loading, loadingAuth} = useContext(AuthContext)
 
   function Login(){
-    console.log(email, password)
     if(email !== '' && password !== ''){
       handleLogin(email, password)
       {
