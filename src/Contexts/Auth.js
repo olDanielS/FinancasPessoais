@@ -4,13 +4,14 @@ export const AuthContext = createContext();
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 function AuthProvider({children}) { 
 
   const [user, setUser] = useState('');
   const [loading, setLoading] = useState(false); // Controla o IndicatorActive de quando for criar conta e logar
   const [loadingAuth, setLoadingAuth] = useState(true); //Controla o IndicatorActive de quando for trocar rotas enrtre Stack e Drawer
-  
+  const [responseError, setResponseError] = useState(null);
   
   useEffect(() => {
    async function localStorange(){
@@ -43,10 +44,12 @@ function AuthProvider({children}) {
         email: email,
         password: password,
       })
+      Alert.alert('Exito', 'Conta criada com sucesso!')
+      console.log(response.data)
       setLoading(false)
       
     }catch(err){
-      console.log('Erro ao tentar cadastrar:' + err)
+      Alert.alert('Algo deu errado...', "Erro ao tentar cadastrar, verifique os campos e tente novamente!")
       setLoading(false)
     }
   }
@@ -66,15 +69,15 @@ function AuthProvider({children}) {
         token: token,
 
       }
-      api.defaults.headers['Authorization'] = `Bearer ${token}` // Setando novamente o token default
       
+      api.defaults.headers['Authorization'] = `Bearer ${token}` // Setando novamente o token default
       await AsyncStorage.setItem('@AuthToken', token); // Colocando o token no async Storange
       setUser({id, name, token})
       setLoading(false)
 
     
     }catch(err){
-      console.log('Erro: ' + err)
+      Alert.alert('Algo deu errado...', "Ocorreu um erro ao tentar fazer login, verifique os campos e tente novamente!")
       setLoading(false)
     }
   }
@@ -85,7 +88,7 @@ function AuthProvider({children}) {
     })
   }
     return(
-    <AuthContext.Provider value={{signed: !!user, user, createAccount, handleLogin, loading, handleLogout, loadingAuth}}>
+    <AuthContext.Provider value={{signed: !!user, user, createAccount, handleLogin, loading, handleLogout, loadingAuth, responseError}}>
         {children}
     </AuthContext.Provider>
   );

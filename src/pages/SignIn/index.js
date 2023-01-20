@@ -13,15 +13,17 @@ export default function SignIn() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const {handleLogin, loading, loadingAuth} = useContext(AuthContext)
+  const {handleLogin, loading, loadingAuth, responseError} = useContext(AuthContext)
 
   function Login(){
     if(email !== '' && password !== ''){
-      handleLogin(email, password)
+      handleLogin(email, password);
       {
         loadingAuth && <ActivityIndicator size={32} color="#000"/> 
       }
-    }else{
+    }
+
+    else{
       Alert.alert('Atenção', 'Os campos não podem permanecer vazios')
     }
   }
