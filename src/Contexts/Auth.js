@@ -1,7 +1,7 @@
 import React, {useState, createContext, useEffect}from 'react';
 import api from '../Services/api'
-export const AuthContext = createContext();
 
+export const AuthContext = createContext();
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';

@@ -5,8 +5,10 @@ import api from '../../../Services/api';
 import Header from '../Components/Header';
 import Cards from '../Components/Cards';
 import HistoricoList from '../Components/HistoricoList';
+import CalendarModal from '../CalendarModal';
+
 import {SafeContainer, Container, Title, CardsList, Area, ListMovimentes} from './styles'
-import { TouchableOpacity } from 'react-native';
+import { Modal, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -19,6 +21,7 @@ export default function Home() {
   const [dateBalance, setDateBalance] = useState(Date.now())
   const [listBalance, setListBalance] = useState([])
   const [moviments, setMoviments] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   
   const isFocused = useIsFocused(); // Para somente ficar carregando os dados se estiver com foco na tela de home
  
@@ -64,7 +67,11 @@ export default function Home() {
 
   }catch(err){}
  }
-
+ 
+ function filterDayMoviments(dateSelected){
+  setDateBalance(dateSelected)
+ }
+ 
 
   return (
     <SafeContainer>
@@ -79,7 +86,7 @@ export default function Home() {
             />
 
             <Area>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Icon name="calendar" size={24} color="#FFF"/>
               </TouchableOpacity>
             <Title>Últimas movimentações</Title>
@@ -92,6 +99,13 @@ export default function Home() {
             showsVerticalScrollIndicator={false}
             
           />
+          <Modal visible={modalVisible} animationType='fade' transparent>
+              <CalendarModal 
+              setVisible={() => setModalVisible(false)}
+              handleFilter={filterDayMoviments}
+              />
+          </Modal>
+
           </Container>
           </SafeContainer>
   );
