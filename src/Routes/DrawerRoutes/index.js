@@ -21,8 +21,16 @@ return (
 
     }}>
         <Drawer.Screen name='Home' component={Home}/>  
-        <Drawer.Screen name='Novo Registro' component={Registers}/>  
-        <Drawer.Screen name='Profile' component={Profile}/>  
+        <Drawer.Screen name='Register' component={Registers}
+            options={{
+                title: 'Registrar Movimentação'
+            }}
+        />  
+        <Drawer.Screen name='Profile' component={Profile}
+            options={{
+                title: "Perfil"
+            }}
+        />  
     </Drawer.Navigator>
   );
 }

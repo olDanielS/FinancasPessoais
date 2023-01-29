@@ -28,7 +28,7 @@ export const InputData = styled.TextInput`
     `;
 export const Logo = styled.Image`
     width: 180px;
-    height: 170px;
+    height: 180px;
     margin-bottom: 40px;
 `;
 

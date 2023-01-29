@@ -56,7 +56,7 @@ export default function SignUp() {
       {loading ? (
           <ActivityIndicator size={20} color='#FFF'/>
          ) : (
-           <TxtButton>Acessar</TxtButton>
+           <TxtButton>Cadastrar</TxtButton>
            )
           }
       </Button>  

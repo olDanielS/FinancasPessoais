@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    margin-left: 14px;
+    margin-left: 4px;
     margin-right: 14px;
     border-radius: 4px;
     justify-content: center;
@@ -10,7 +10,7 @@ export const Container = styled.View`
     width: 300px;
     padding-left: 14px;
     background-color: ${props => props.bg};
-    opacity: 0.7;
+    opacity: 0.9;
    
 `
 export const Title = styled.Text`

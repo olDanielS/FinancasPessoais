@@ -2,7 +2,7 @@ import React, {useState}from 'react';
 import {BtnMoviments, TxtMoviments, AreaButtons} from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 
-export default function RegisterTypes({type, sendTypeChanged}) {
+export default function RegisterTypes({type, sendTypeChanged}) { //Basicamente estamos pegando o estado type e o SetType do elemento pai
     const [typeChecked, setTypeChecked] = useState(type)   
     
     function ChangeText(name){
@@ -16,7 +16,7 @@ export default function RegisterTypes({type, sendTypeChanged}) {
     }
 return (
     <AreaButtons>
-        <BtnMoviments checked={typeChecked === 'receita' ? true : false} onPress={() => ChangeText('receita')}>
+        <BtnMoviments checked={typeChecked === 'receita' ? true : false} onPress={() => ChangeText('receita')}> 
             <Icon name='arrow-up' size={22} color='#00B94A'/>
             <TxtMoviments>Receita</TxtMoviments>
         </BtnMoviments>
